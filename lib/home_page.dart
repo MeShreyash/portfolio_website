@@ -96,7 +96,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Scroll to About section
+                      _scrollController.animateTo(size.height * 2,
+                          duration: Duration(seconds: 1), curve: Curves.easeIn);
                     },
                     child: Text(
                       "About",
@@ -107,7 +108,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Scroll to Skills section
+                      _scrollController.animateTo(size.height * 3,
+                          duration: Duration(seconds: 1), curve: Curves.easeIn);
                     },
                     child: Text(
                       "Skills",
@@ -118,7 +120,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Scroll to Portfolio section
+                      _scrollController.animateTo(size.height * 4,
+                          duration: Duration(seconds: 1), curve: Curves.easeIn);
                     },
                     child: Text(
                       "Portfolio",
@@ -129,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      _scrollController.animateTo(size.height * 3,
+                      _scrollController.animateTo(size.height * 5,
                           duration: Duration(seconds: 1), curve: Curves.easeIn);
                     },
                     child: Text(
@@ -149,13 +152,64 @@ class _HomePageState extends State<HomePage> {
         controller: _scrollController,
         children: <Widget>[
           _introPage(),
-          _services(),
-          _contact(),
+          _servicesPage(),
+          _aboutPage(),
+          _skillsPage(),
+          _portfolioPage(),
+          _contactPage(),
         ],
       ),
     );
   }
 
+  Widget selectedDot() {
+    return Container(
+      height: 25,
+      width: 25,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.red,
+      ),
+    );
+  }
+
+  Widget unSelectedDot() {
+    return Container(
+      height: 25,
+      width: 25,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          width: 2.0, // Border width
+          color: Colors.red, // Border color
+        ),
+        color: Colors.transparent,
+      ),
+    );
+  }
+
+  Widget line() {
+    return Container(
+      height: 65,
+      color: Colors.grey,
+      width: 1.5,
+    );
+  }
+
+  Widget threeDots(int selected) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        (selected == 0) ? selectedDot() : unSelectedDot(),
+        line(),
+        (selected == 1) ? selectedDot() : unSelectedDot(),
+        line(),
+        (selected == 2) ? selectedDot() : unSelectedDot(),
+      ],
+    );
+  }
+
+//INTRO PAGE
   Widget _introPage() {
     return Container(
       alignment: Alignment.center,
@@ -237,54 +291,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget selectedDot() {
-    return Container(
-      height: 25,
-      width: 25,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.red,
-      ),
-    );
-  }
-
-  Widget unSelectedDot() {
-    return Container(
-      height: 25,
-      width: 25,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          width: 2.0, // Border width
-          color: Colors.red, // Border color
-        ),
-        color: Colors.transparent,
-      ),
-    );
-  }
-
-  Widget line() {
-    return Container(
-      height: 65,
-      color: Colors.grey,
-      width: 1.5,
-    );
-  }
-
-  Widget threeDots(int selected) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        (selected == 0) ? selectedDot() : unSelectedDot(),
-        line(),
-        (selected == 1) ? selectedDot() : unSelectedDot(),
-        line(),
-        (selected == 2) ? selectedDot() : unSelectedDot(),
-      ],
-    );
-  }
-
-  Widget _services() {
+//SERVICES PAGE
+  Widget _servicesPage() {
     return Container(
       height: size.height,
       alignment: Alignment.center,
@@ -350,7 +358,330 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _contact() {
+  Widget _buildCard(IconData icon, String heading, String information) {
+    return Container(
+      margin: EdgeInsets.only(right: 10),
+      width: 300,
+      height: 280,
+      child: Card(
+        color: cardColor,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+                child: Icon(
+                  icon,
+                  color: Colors.red,
+                  size: 48,
+                ),
+              ),
+              Text(
+                heading,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              SizedBox(height: 15),
+              Text(
+                information,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+//ABOUT PAGE
+  Widget _aboutPage() {
+    return Container(
+      height: size.height,
+      alignment: Alignment.center,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 100.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: size.width * 0.45,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "About",
+                    style: TextStyle(
+                      fontSize: 44,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    color: Colors.red,
+                    height: 5,
+                    width: 100,
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    width: size.width * 0.4,
+                    height: size.height * 0.4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod turpis vitae est placerat, a laoreet tellus congue.",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: size.height * 0.5,
+                  width: size.height * 0.5,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      width: 4.0,
+                      color: Colors.red,
+                    ),
+                    color: Colors.transparent,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+//SKILLS PAGE
+  Widget _skillsPage() {
+    return Container(
+      height: size.height,
+      alignment: Alignment.center,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 100.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: size.width * 0.62,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Skills Heading
+                  Text(
+                    "Skills",
+                    style: TextStyle(
+                      fontSize: 44,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    color: Colors.red,
+                    height: 5,
+                    width: 100,
+                  ),
+                  SizedBox(height: 20),
+
+                  // List of Skills
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _skillCard("Heading 1", "Information 1"),
+                      _skillCard("Heading 2", "Information 2"),
+                      _skillCard("Heading 3", "Information 3"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: size.width * 0.1,
+            ),
+            threeDots(1),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _skillCard(String heading, String desc) {
+    return Container(
+      margin: EdgeInsets.only(right: 10),
+      width: size.width * 0.8,
+      child: Card(
+        color: cardColor,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  heading,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(height: 5),
+                Text(
+                  desc,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+//PORTFOLIO PAGE
+  Widget _portfolioPage() {
+    return Container(
+      height: size.height,
+      alignment: Alignment.center,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 100.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: size.width * 0.62,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Portfolio",
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+
+                  // Skill-Set Heading
+                  Text(
+                    "My Projects",
+                    style: TextStyle(
+                      fontSize: 44,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    color: Colors.red,
+                    height: 5,
+                    width: 100,
+                  ),
+                  SizedBox(height: 20),
+
+                  // Grid of Cards
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _projectCard('Icons.abc', "Heading 1", "Information 1"),
+                      _projectCard('Icons.alarm', "Heading 2", "Information 2"),
+                      _projectCard('Icons.lock', "Heading 3", "Information 3"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: size.width * 0.1,
+            ),
+            threeDots(1),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _projectCard(String image, String projectName, String projDesc) {
+    return Container(
+      margin: EdgeInsets.only(right: 10),
+      width: 300,
+      height: 280,
+      child: Card(
+        color: cardColor,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4),
+                child: Container(
+                  height: 150,
+                  width: 250,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                projectName,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              SizedBox(height: 15),
+              Text(
+                projDesc,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+//CONTACT PAGE
+  Widget _contactPage() {
     return Container(
       height: size.height,
       alignment: Alignment.center,
@@ -490,50 +821,6 @@ class _HomePageState extends State<HomePage> {
           ),
           threeDots(2),
         ],
-      ),
-    );
-  }
-
-  Widget _buildCard(IconData icon, String heading, String information) {
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      width: 300,
-      height: 280,
-      child: Card(
-        color: cardColor,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
-                child: Icon(
-                  icon,
-                  color: Colors.red,
-                  size: 48,
-                ),
-              ),
-              Text(
-                heading,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(height: 15),
-              Text(
-                information,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
