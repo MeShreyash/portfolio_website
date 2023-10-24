@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'firestore.dart';
 import 'main.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
+import 'models/project.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key});
@@ -13,10 +18,14 @@ class _HomePageState extends State<HomePage> {
   late ScrollController _scrollController;
   int currentPage = 0;
 
+  String imageUrl =
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0qCreqkTZL0F0bF9kZctFE1XVFocO__70kw&usqp=CAU";
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    FireStore().getProjects();
+    // getProjects();
   }
 
   @override
@@ -404,6 +413,8 @@ class _HomePageState extends State<HomePage> {
 
 //ABOUT PAGE
   Widget _aboutPage() {
+    // final storage = FirebaseStorage.instance;
+
     return Container(
       height: size.height,
       alignment: Alignment.center,
@@ -455,17 +466,38 @@ class _HomePageState extends State<HomePage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: size.height * 0.5,
-                  width: size.height * 0.5,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      width: 4.0,
-                      color: Colors.red,
-                    ),
-                    color: Colors.transparent,
-                  ),
+                StreamBuilder<DocumentSnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('myphoto')
+                      .doc('portfoliophoto')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    }
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    }
+
+                    // Get the image URL from the Firestore document
+                    String imageUrl = snapshot.data!['imageUrl'];
+                    return Container(
+                      height: size.height * 0.5,
+                      width: size.height * 0.5,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          width: 4.0,
+                          color: Colors.red,
+                        ),
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                          image: NetworkImage(imageUrl),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -613,16 +645,49 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(height: 20),
 
-                  // Grid of Cards
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _projectCard('Icons.abc', "Heading 1", "Information 1"),
-                      _projectCard('Icons.alarm', "Heading 2", "Information 2"),
-                      _projectCard('Icons.lock', "Heading 3", "Information 3"),
-                    ],
-                  ),
+                  StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('projects')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      }
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
+
+                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                        return Text('No projects available.');
+                      }
+
+                      final projects = snapshot.data!.docs;
+                      List<Project> projectList = projects.map((project) {
+                        final data = project.data() as Map<String, dynamic>;
+                        final projectName =
+                            data['projectName'] ?? 'No name available';
+                        final projDesc =
+                            data['projDesc'] ?? 'No Description available';
+                        final image = data['image'] ?? ['No image found!'];
+
+                        return Project(
+                          projectId: project.id,
+                          projectName: projectName,
+                          projDesc: projDesc,
+                          image: image,
+                        );
+                      }).toList();
+
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: projectList.length,
+                        itemBuilder: (context, index) {
+                          final project = projectList[index];
+                          return _projectCard(project);
+                        },
+                      );
+                    },
+                  )
                 ],
               ),
             ),
@@ -636,7 +701,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _projectCard(String image, String projectName, String projDesc) {
+  Widget _projectCard(Project project) {
     return Container(
       margin: EdgeInsets.only(right: 10),
       width: 300,
@@ -655,11 +720,21 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   height: 150,
                   width: 250,
-                  color: Colors.white,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal, // Horizontal scroll
+                      itemCount: project.image.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: Image.network(project.image[index]),
+                        );
+                      }),
                 ),
               ),
               Text(
-                projectName,
+                project.projectName,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -668,7 +743,7 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 15),
               Text(
-                projDesc,
+                project.projDesc,
                 style: TextStyle(
                   color: Colors.white,
                 ),
