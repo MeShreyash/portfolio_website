@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'models/project.dart';
+import 'models/skills.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key});
@@ -371,7 +372,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       margin: EdgeInsets.only(right: 10),
       width: 300,
-      height: 280,
+      height: 250,
       child: Card(
         color: cardColor,
         child: Padding(
@@ -382,7 +383,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
                 child: Icon(
                   icon,
                   color: Colors.red,
@@ -398,10 +399,15 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(height: 15),
-              Text(
-                information,
-                style: TextStyle(
-                  color: Colors.white,
+              Container(
+                height: 60,
+                child: SingleChildScrollView(
+                  child: Text(
+                    information,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -543,14 +549,48 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: 20),
 
                   // List of Skills
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _skillCard("Heading 1", "Information 1"),
-                      _skillCard("Heading 2", "Information 2"),
-                      _skillCard("Heading 3", "Information 3"),
-                    ],
+                  StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('skills')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      }
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
+
+                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                        return Text('No skills available.');
+                      }
+
+                      final skills = snapshot.data!.docs;
+                      // print(skills);
+                      List<Skill> skillsList = [];
+                      for (QueryDocumentSnapshot d in skills) {
+                        Map<String, dynamic> data =
+                            d.data()! as Map<String, dynamic>;
+                        final s = Skill(data['name'] ?? "Name",
+                            data['desc'] ?? "Loda mera");
+                        skillsList.add(s);
+                      }
+                      return SizedBox(
+                        height: size.height * 0.5,
+                        child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3, childAspectRatio: 16 / 9),
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: skillsList.length,
+                          itemBuilder: (context, rowIndex) {
+                            Skill skills = skillsList[rowIndex];
+                            return _skillCard(skills.name, skills.desc);
+                          },
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -566,36 +606,30 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _skillCard(String heading, String desc) {
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      width: size.width * 0.8,
-      child: Card(
-        color: cardColor,
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  heading,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  desc,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ],
+    return Card(
+      color: cardColor,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              heading,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
+            SizedBox(height: 10),
+            Text(
+              desc,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -678,16 +712,27 @@ class _HomePageState extends State<HomePage> {
                         );
                       }).toList();
 
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: projectList.length,
-                        itemBuilder: (context, index) {
-                          final project = projectList[index];
-                          return _projectCard(project);
-                        },
+                      return SizedBox(
+                        height: size.height * 0.5,
+                        child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            crossAxisCount: 3,
+                            childAspectRatio: 1,
+                          ),
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: projectList.length,
+                          itemBuilder: (context, rowIndex) {
+                            Project project = projectList[rowIndex];
+                            return _projectCard(project);
+                          },
+                        ),
                       );
                     },
-                  )
+                  ),
                 ],
               ),
             ),
@@ -702,54 +747,92 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _projectCard(Project project) {
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      width: 300,
-      height: 280,
+    PageController controller = PageController();
+    int index = 0;
+    return Padding(
+      padding: const EdgeInsets.all(10),
       child: Card(
         color: cardColor,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4),
-                child: Container(
-                  height: 150,
-                  width: 250,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: PageView.builder(
+                  controller: controller,
+                  physics: const NeverScrollableScrollPhysics(),
+                  allowImplicitScrolling: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: project.image.length,
+                  itemBuilder: (context, index) {
+                    return Image.network(
+                      project.image[index],
+                      fit: BoxFit.contain,
+                    );
+                  },
+                ),
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      if (index == 0) {
+                        return;
+                      }
+                      index -= 1;
+                      controller.animateToPage(index,
+                          duration: Duration(milliseconds: 200),
+                          curve: Curves.ease);
+                    },
+                    icon: Icon(
+                      Icons.arrow_left,
+                      color: Colors.white,
+                    )),
+                IconButton(
+                  onPressed: () {
+                    if (index == project.image.length) {
+                      return;
+                    }
+                    index += 1;
+                    controller.animateToPage(index,
+                        duration: Duration(milliseconds: 200),
+                        curve: Curves.ease);
+                  },
+                  icon: Icon(
+                    Icons.arrow_right,
+                    color: Colors.white,
                   ),
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal, // Horizontal scroll
-                      itemCount: project.image.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: Image.network(project.image[index]),
-                        );
-                      }),
                 ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    project.projectName,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  // Text(
+                  //   project.projDesc,
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //   ),
+                  // ),
+                ],
               ),
-              Text(
-                project.projectName,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(height: 15),
-              Text(
-                project.projDesc,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
