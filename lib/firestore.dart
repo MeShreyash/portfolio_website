@@ -22,10 +22,4 @@ class FireStore {
       // });
     }
   }
-
-  void getMyPhoto() {
-    final myPhoto = _firestore.collection('projects').get();
-  }
-
-  void getSkills() {}
 }
