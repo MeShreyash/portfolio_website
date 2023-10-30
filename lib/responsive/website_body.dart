@@ -352,15 +352,32 @@ class _WebsiteBodyState extends State<WebsiteBody> {
                   SizedBox(height: 20),
 
                   // Grid of Cards
-
-                  size.width < 1200
-                      ? SizedBox(
-                          height: size.width * 0.4,
+                  size.width > 1200
+                      ? GridView(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            childAspectRatio: 16 / 15,
+                          ),
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          children: [
+                            _buildCard(Icons.camera_alt_rounded, "Photography",
+                                "Photography is the art of capturing moments, emotions, and stories with a single click, where every image has the power to speak a thousand words."),
+                            _buildCard(Icons.web_asset, "Web Development",
+                                "Web development is like sculpting the digital world, where creativity meets technology to build immersive online experiences that shape the future of the internet."),
+                            _buildCard(Icons.app_shortcut_rounded, "App Design",
+                                "App design is where user interface becomes a canvas, and user experience is a masterpiece waiting to be created, bringing innovation and usability to the palm of your hand"),
+                          ],
+                        )
+                      : SizedBox(
+                          height: size.height * 0.5,
                           child: GridView(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 16 / 16),
+                              crossAxisCount: 2,
+                              childAspectRatio: 16 / 16,
+                            ),
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             children: [
@@ -376,21 +393,6 @@ class _WebsiteBodyState extends State<WebsiteBody> {
                                   "App design is where user interface becomes a canvas, and user experience is a masterpiece waiting to be created, bringing innovation and usability to the palm of your hand"),
                             ],
                           ),
-                        )
-                      : GridView(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3, childAspectRatio: 16 / 16),
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          children: [
-                            _buildCard(Icons.camera_alt_rounded, "Photography",
-                                "Photography is the art of capturing moments, emotions, and stories with a single click, where every image has the power to speak a thousand words."),
-                            _buildCard(Icons.web_asset, "Web Development",
-                                "Web development is like sculpting the digital world, where creativity meets technology to build immersive online experiences that shape the future of the internet."),
-                            _buildCard(Icons.app_shortcut_rounded, "App Design",
-                                "App design is where user interface becomes a canvas, and user experience is a masterpiece waiting to be created, bringing innovation and usability to the palm of your hand"),
-                          ],
                         ),
                 ],
               ),
@@ -432,10 +434,17 @@ class _WebsiteBodyState extends State<WebsiteBody> {
               ),
             ),
             SizedBox(height: 10),
-            Text(
-              information,
-              style: TextStyle(
-                color: Colors.white,
+            Container(
+              height: 60.0,
+              child: ListView(
+                children: [
+                  Text(
+                    information,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -668,10 +677,17 @@ class _WebsiteBodyState extends State<WebsiteBody> {
               ),
             ),
             SizedBox(height: 10),
-            Text(
-              desc,
-              style: TextStyle(
-                color: Colors.white,
+            Container(
+              height: 60.0, // Adjust the height as needed
+              child: ListView(
+                children: [
+                  Text(
+                    desc,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

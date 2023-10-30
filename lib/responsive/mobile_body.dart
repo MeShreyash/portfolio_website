@@ -224,7 +224,6 @@ class _MobileBodyState extends State<MobileBody> {
             width: size.width * 0.8,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(

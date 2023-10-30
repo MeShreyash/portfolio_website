@@ -8,7 +8,7 @@ const Color bgColor = Color(0x242639); // Background color
 const Color cardColor = Color(0x2B2D40); // Card color
 
 //Dimensions
-const mobileWidth = 700;
+const mobileWidth = 750;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
