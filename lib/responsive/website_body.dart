@@ -232,8 +232,8 @@ class _WebsiteBodyState extends State<WebsiteBody> {
     return Container(
       alignment: Alignment.center,
       height: size.height,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 150),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -311,9 +311,9 @@ class _WebsiteBodyState extends State<WebsiteBody> {
   Widget _servicesPage() {
     return Container(
       height: size.height,
-      alignment: Alignment.topCenter,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 100.0),
+      alignment: Alignment.center,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -460,8 +460,8 @@ class _WebsiteBodyState extends State<WebsiteBody> {
     return Container(
       height: size.height,
       alignment: Alignment.center,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 100.0),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -554,8 +554,8 @@ class _WebsiteBodyState extends State<WebsiteBody> {
     return Container(
       height: size.height,
       alignment: Alignment.center,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 100.0),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -701,8 +701,8 @@ class _WebsiteBodyState extends State<WebsiteBody> {
     return Container(
       height: size.height,
       alignment: Alignment.center,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 100.0),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -924,142 +924,147 @@ class _WebsiteBodyState extends State<WebsiteBody> {
     return Container(
       height: size.height,
       alignment: Alignment.center,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 100.0),
-            child: SizedBox(
-              width: size.width * 0.62,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Connect with me",
-                    style: TextStyle(
-                      fontSize: 36,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 100.0),
+              child: SizedBox(
+                width: size.width * 0.62,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Connect with me",
+                      style: TextStyle(
+                        fontSize: 36,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
 
-                  // TextFormFields for Email and Message
-                  SizedBox(
-                    height: 20,
-                  ),
+                    // TextFormFields for Email and Message
+                    SizedBox(
+                      height: 20,
+                    ),
 
-                  Container(
-                    width: 450,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          color: Colors.grey.withOpacity(0.2),
-                          child: SizedBox(
-                            height: 50, // Increase the height for more space
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: "Email",
-                                labelStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20, // Increase the label text size
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide
-                                      .none, // Hide the underline when focused
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide
-                                      .none, // Hide the underline when not focused
+                    Container(
+                      width: 450,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            color: Colors.grey.withOpacity(0.2),
+                            child: SizedBox(
+                              height: 50, // Increase the height for more space
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: "Email",
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        20, // Increase the label text size
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide
+                                        .none, // Hide the underline when focused
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide
+                                        .none, // Hide the underline when not focused
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(8.0),
-                          color: Colors.grey.withOpacity(0.2),
-                          child: SizedBox(
-                            height: 50, // Increase the height for more space
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: "Message",
-                                labelStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20, // Increase the label text size
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide
-                                      .none, // Hide the underline when focused
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide
-                                      .none, // Hide the underline when not focused
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            color: Colors.grey.withOpacity(0.2),
+                            child: SizedBox(
+                              height: 50, // Increase the height for more space
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: "Message",
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        20, // Increase the label text size
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide
+                                        .none, // Hide the underline when focused
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide
+                                        .none, // Hide the underline when not focused
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.red),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  // horizontal: 25,
-                                  vertical: 15.0,
+                          SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {},
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.red),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Stay Connected",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    // horizontal: 25,
+                                    vertical: 15.0,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Stay Connected",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    Icon(
-                                      Icons.play_arrow,
-                                      color: Colors.black,
-                                    ),
-                                  ],
+                                      Icon(
+                                        Icons.play_arrow,
+                                        color: Colors.black,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: size.width * 0.1,
-          ),
-          threeDots(2),
-        ],
+            SizedBox(
+              width: size.width * 0.1,
+            ),
+            threeDots(2),
+          ],
+        ),
       ),
     );
   }
