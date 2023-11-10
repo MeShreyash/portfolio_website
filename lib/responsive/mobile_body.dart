@@ -289,44 +289,43 @@ class _MobileBodyState extends State<MobileBody> {
   }
 
   Widget _buildCard(IconData icon, String heading, String information) {
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      width: size.width * 0.6,
-      height: size.width * 0.6,
-      child: Card(
-        color: cardColor,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-                child: Icon(
-                  icon,
-                  color: Colors.red,
-                  size: 48,
+    return Card(
+      color: cardColor,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+              child: Icon(
+                icon,
+                color: Colors.red,
+                size: 48,
+              ),
+            ),
+            Text(
+              heading,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            SizedBox(height: 15),
+            Flexible(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Text(
+                  information,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              Text(
-                heading,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(height: 15),
-              Text(
-                information,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -523,10 +522,14 @@ class _MobileBodyState extends State<MobileBody> {
               ),
             ),
             SizedBox(height: 10),
-            Text(
-              desc,
-              style: TextStyle(
-                color: Colors.white,
+            Flexible(
+              child: SingleChildScrollView(
+                child: Text(
+                  desc,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ],
@@ -722,12 +725,6 @@ class _MobileBodyState extends State<MobileBody> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  // Text(
-                  //   project.projDesc,
-                  //   style: TextStyle(
-                  //     color: Colors.white,
-                  //   ),
-                  // ),
                 ],
               ),
             ),
