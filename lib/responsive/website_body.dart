@@ -75,89 +75,14 @@ class _WebsiteBodyState extends State<WebsiteBody> {
                       ),
                     ],
                   ),
-                  // size.width > 1000
-                  //     ? SizedBox(width: size.width * 0.45)
-                  //     : SizedBox(width: 0),
                   Row(
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          _scrollController.animateTo(0,
-                              duration: Duration(seconds: 1),
-                              curve: Curves.easeIn);
-                        },
-                        child: Text(
-                          "Home",
-                          style: TextStyle(
-                            color: Colors.white, // Changed text color to white
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          _scrollController.animateTo(size.height,
-                              duration: Duration(seconds: 1),
-                              curve: Curves.easeIn);
-                        },
-                        child: Text(
-                          "Services",
-                          style: TextStyle(
-                            color: Colors.white, // Changed text color to white
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          _scrollController.animateTo(size.height * 2,
-                              duration: Duration(seconds: 1),
-                              curve: Curves.easeIn);
-                        },
-                        child: Text(
-                          "About",
-                          style: TextStyle(
-                            color: Colors.white, // Changed text color to white
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          _scrollController.animateTo(size.height * 3,
-                              duration: Duration(seconds: 1),
-                              curve: Curves.easeIn);
-                        },
-                        child: Text(
-                          "Skills",
-                          style: TextStyle(
-                            color: Colors.white, // Changed text color to white
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          _scrollController.animateTo(size.height * 4,
-                              duration: Duration(seconds: 1),
-                              curve: Curves.easeIn);
-                        },
-                        child: Text(
-                          "Portfolio",
-                          style: TextStyle(
-                            color: Colors.white, // Changed text color to white
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          _scrollController.animateTo(size.height * 5,
-                              duration: Duration(seconds: 1),
-                              curve: Curves.easeIn);
-                        },
-                        child: Text(
-                          "Contact",
-                          style: TextStyle(
-                            color: Colors.white, // Changed text color to white
-                          ),
-                        ),
-                      ),
+                      topicAppbarButton("Home", 0),
+                      topicAppbarButton("Services", 1),
+                      topicAppbarButton("About", 2),
+                      topicAppbarButton("Skills", 3),
+                      topicAppbarButton("Portfolio", 4),
+                      topicAppbarButton("Contact", 5),
                     ],
                   ),
                 ],
@@ -176,6 +101,21 @@ class _WebsiteBodyState extends State<WebsiteBody> {
           _portfolioPage(),
           _contactPage(),
         ],
+      ),
+    );
+  }
+
+  Widget topicAppbarButton(String topic, int pgNumber) {
+    return TextButton(
+      onPressed: () {
+        _scrollController.animateTo(size.height * pgNumber,
+            duration: Duration(seconds: 1), curve: Curves.easeIn);
+      },
+      child: Text(
+        "$topic",
+        style: TextStyle(
+          color: Colors.white, // Changed text color to white
+        ),
       ),
     );
   }
@@ -223,6 +163,35 @@ class _WebsiteBodyState extends State<WebsiteBody> {
         (selected == 1) ? selectedDot() : unSelectedDot(),
         line(),
         (selected == 2) ? selectedDot() : unSelectedDot(),
+      ],
+    );
+  }
+
+  Widget underlinedTopicHeading(String whiteHeading, redHeading) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "$whiteHeading",
+          style: TextStyle(
+            fontSize: 22,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(height: 20),
+
+        // Skill-Set Heading
+        Text(
+          "$redHeading",
+          style: TextStyle(
+            fontSize: 44,
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 20),
+        Container(color: Colors.red, height: 5, width: 100),
       ],
     );
   }
@@ -340,7 +309,7 @@ class _WebsiteBodyState extends State<WebsiteBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  servicesHeading(),
+                  underlinedTopicHeading("Services", "Skill-Set"),
                   SizedBox(height: 20),
                   serviceCardGrid(),
                 ],
@@ -351,35 +320,6 @@ class _WebsiteBodyState extends State<WebsiteBody> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget servicesHeading() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          "Services",
-          style: TextStyle(
-            fontSize: 22,
-            color: Colors.white,
-          ),
-        ),
-        SizedBox(height: 20),
-
-        // Skill-Set Heading
-        Text(
-          "Skill-Set",
-          style: TextStyle(
-            fontSize: 44,
-            color: Colors.red,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 20),
-        Container(color: Colors.red, height: 5, width: 100),
-      ],
     );
   }
 
@@ -481,11 +421,12 @@ class _WebsiteBodyState extends State<WebsiteBody> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: size.width * 0.45,
+              width: size.width * 0.40,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  aboutHeading(),
+                  // aboutHeading(),
+                  underlinedTopicHeading("", "About"),
                   SizedBox(height: 20),
                   aboutText(),
                 ],
@@ -495,28 +436,6 @@ class _WebsiteBodyState extends State<WebsiteBody> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget aboutHeading() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "About",
-          style: TextStyle(
-            fontSize: 44,
-            color: Colors.red,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 20),
-        Container(
-          color: Colors.red,
-          height: 5,
-          width: 100,
-        ),
-      ],
     );
   }
 
@@ -597,7 +516,8 @@ class _WebsiteBodyState extends State<WebsiteBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  skillHeading(),
+                  // skillHeading(),
+                  underlinedTopicHeading("", "Skills"),
                   SizedBox(height: 20),
                   skillCardGrid(),
                 ],
@@ -608,29 +528,6 @@ class _WebsiteBodyState extends State<WebsiteBody> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget skillHeading() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          "Skills",
-          style: TextStyle(
-            fontSize: 44,
-            color: Colors.red,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 20),
-        Container(
-          color: Colors.red,
-          height: 5,
-          width: 100,
-        ),
-      ],
     );
   }
 
@@ -745,7 +642,7 @@ class _WebsiteBodyState extends State<WebsiteBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  projectHeading(),
+                  underlinedTopicHeading("Portfolio", "My Projects"),
                   SizedBox(height: 20),
                   projectCardGrid(),
                 ],
@@ -758,39 +655,6 @@ class _WebsiteBodyState extends State<WebsiteBody> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget projectHeading() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          "Portfolio",
-          style: TextStyle(
-            fontSize: 22,
-            color: Colors.white,
-          ),
-        ),
-        SizedBox(height: 20),
-
-        // Skill-Set Heading
-        Text(
-          "My Projects",
-          style: TextStyle(
-            fontSize: 44,
-            color: Colors.red,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 20),
-        Container(
-          color: Colors.red,
-          height: 5,
-          width: 100,
-        ),
-      ],
     );
   }
 

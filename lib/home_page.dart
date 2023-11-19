@@ -50,20 +50,6 @@ class _HomePageState extends State<HomePage> {
         mobileBody: MobileBody(),
         desktopBody: WebsiteBody(),
       ),
-
-      // body: ListView(
-      //   controller: _scrollController,
-      //   children: <Widget>[
-      //     _introPage(),
-      //     _servicesPage(),
-      //     _aboutPage(),
-      //     _skillsPage(),
-      //     _portfolioPage(),
-      //     _contactPage(),
-      //   ],
-      // ),
     );
-  }
-
-  
+  }  
 }
